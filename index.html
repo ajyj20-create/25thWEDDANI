@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024">
+<title>25<sup>th</sup> Wedding Anniversary Invitation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cormorant+Garamond:wght@600&family=Nunito:wght@400;600&family=Alex+Brush&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family:'Nunito',sans-serif;
+  background:radial-gradient(circle at top, #ffe3ef, #ffd6e8, #ffcfe3);
+  padding:25px;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+/* CARD */
+.card {
+  max-width:1000px;
+  margin:auto;
+  background:white;
+  border-radius:32px;
+  border:4px solid #f2c36e;
+  padding:35px 35px 50px 35px;
+  box-shadow:0 18px 40px rgba(0,0,0,0.15);
+  opacity:0;
+  transform:translateY(20px);
+  transition:.8s;
+  position:relative;
+  z-index:1;
+}
+.card.show {opacity:1;transform:translateY(0);}
+
+/* SIDE FLOWERS */
+.sideflower {
+  position:absolute;
+  width:260px;
+  opacity:0.85;
+  z-index:0;
+  top:55%;
+}
+.sideflower.left {left:20px;}
+.sideflower.right {right:20px; transform:scaleX(-1);}
+
+/* CROSS */
+.cross { font-size:3rem; color:#c2466f; margin-bottom:3px;  text-shadow: 0 0 15px gold, 0 0 30px gold;}
+
+/* BIBLE */
+.bible {
+  font-family:"Alex Brush";
+  font-size:1.7rem;
+  margin-bottom:10px;
+}
+
+/* Anniversary */
+.anniv {
+  font-family:"Alex Brush";
+  font-size:3rem;
+  font-weight:700;
+  color:#c2466f;
+  margin-bottom:12px;
+}
+
+/* Names */
+.names {
+  font-family:"Playfair Display";
+  font-size:2.4rem;
+  font-weight:700;
+  white-space:nowrap;
+  color:#4a2530;
+  margin-bottom:15px;
+}
+
+/* Heading */
+h2 {
+  font-family:"Cormorant Garamond";
+  font-size:2.8rem;
+  margin:10px 0 14px 0;
+}
+
+/* Joyous paragraph */
+.joyous {
+  font-size:1.3rem;
+  color:#744150;
+  line-height:1.6;
+  margin:10px auto 18px auto;
+  max-width:720px;
+}
+
+/* PHOTO */
+.photo-wrap {
+  margin:10px auto 8px auto;
+}
+.photo-wrap img {
+  width:320px;
+  border-radius:25px;
+  border:5px solid white;
+  box-shadow:0 0 25px rgba(200,100,150,0.6);
+}
+
+/* Blessings */
+.bless {
+  margin-top:18px;
+  font-size:1.4rem;
+  color:#5d2f36;
+}
+
+/* Glow boxes */
+.box-title {
+  display:inline-block;
+  padding:10px 30px;
+  font-family:"Playfair Display";
+  font-size:2rem;
+  font-weight:700;
+  border-radius:18px;
+  margin-bottom:10px;
+  color:#4a2530;
+  background:linear-gradient(135deg,#ffe5f2,#ffe9ba);
+  box-shadow:0 0 18px rgba(255,200,120,0.9), 0 0 30px rgba(255,150,200,0.6);
+}
+
+/* Venue */
+.section {
+  font-family:"Playfair Display";
+  font-size:1.8rem;
+  margin:20px 0;
+}
+
+/* Final line */
+.final {
+  font-size:1.4rem;
+  font-weight:700;
+  line-height:1.4;
+  margin-top:22px;
+}
+
+/* PETALS */
+.petal {
+  position:fixed;
+  top:-10vh;
+  width:18px; height:22px;
+  background:radial-gradient(circle,#ffcccc 0%,#cc0033 50%,#660000 100%);
+  border-radius:60% 40% 70% 30%;
+  opacity:0.9;
+  animation:fall linear infinite;
+  z-index:2;
+}
+@keyframes fall {
+  0%{transform:translateY(0) rotate(0deg);opacity:0;}
+  10%{opacity:1;}
+  100%{transform:translateY(110vh) rotate(360deg);opacity:0;}
+}
+
+/* SPARKLES */
+.sparkle {
+  position:fixed;
+  width:6px;height:6px;
+  border-radius:50%;
+  background:radial-gradient(circle, gold 0%, transparent 70%);
+  opacity:0;
+  animation:spark 2.2s ease-out infinite;
+  z-index:3;
+}
+@keyframes spark {
+  0%{opacity:0;transform:scale(.3);}
+  20%{opacity:1;transform:scale(1.1);}
+  80%{opacity:.6;transform:scale(.7);}
+  100%{opacity:0;transform:scale(.2);}
+}
+
+/* ENVELOPE */
+.envelope-overlay {
+  position:fixed; inset:0;
+  background:radial-gradient(circle,#ffe3ef,#f7c2da,#f0a9c6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
+  transition:opacity .6s;
+}
+.envelope-overlay.hidden {opacity:0;pointer-events:none;}
+
+.envelope-box {
+  width:350px; height:240px;
+  background:white;
+  border-radius:20px;
+  border:3px solid #f2c36e;
+  position:relative;
+  cursor:pointer;
+  box-shadow:0 18px 40px rgba(0,0,0,0.2);
+}
+.envelope-flap {
+  position:absolute; top:0; left:0;
+  width:100%; height:60%;
+  background:linear-gradient(135deg,#f9c2e0,#fbe3b2);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;
+  transition:.7s;
+}
+.envelope-box.open .envelope-flap {transform:rotateX(180deg);}
+.env-text {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  color:#5a2d36;
+}
+.env-main {font-family:"Alex Brush"; font-size:2.4rem;}
+</style>
+</head>
+
+<body>
+
+<div class="envelope-overlay" id="env">
+  <div class="envelope-box" id="envbox">
+    <div class="envelope-flap"></div>
+    <div class="env-text">
+      <div class="env-main">25<sup>th</sup> Wedding Anniversary</div>
+      <div>Tap to open ♡</div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="card">
+
+  <img src="flowers.png" class="sideflower left">
+  <img src="flowers.png" class="sideflower right">
+
+  <div class="cross">✝</div>
+
+  <div class="bible">“Therefore what God has joined together, let no one separate.” — Mark 10:9</div>
+
+  <div class="anniv"><strong>25<sup>th</sup> Wedding Anniversary</strong></div>
+
+  <div class="names">Duraisamy Packiaraj & Amirtharaj Sahaya Pusparani</div>
+
+  <h2>Thanksgiving Holy Mass & Celebration</h2>
+
+  <div class="joyous"><strong>
+    On this joyous occasion, we give thanks to God for 25 beautiful years of love, faith and family.
+    We warmly invite you to join us in thanking the Lord and celebrating this special milestone.
+  </strong></div>
+
+  <div class="photo-wrap">
+    <img src="parents.jpg" alt="Anniversary couple">
+  </div>
+
+  <div class="bless">
+    With the blessings of <br>
+    <strong>Mrs Arokia Mary & Mrs Regina Mary</strong>
+  </div>
+
+  <div class="section">
+    <div class="box-title">Holy Mass</div><br>
+    Church of the Sacred Heart, Pudukkottai<br>
+    29 December 2025, Sunday @ 10.30 AM
+  </div>
+
+  <div class="section">
+    <div class="box-title">Reception</div><br>
+    PMSS Banquet Hall @ 12.30 PM
+  </div>
+
+  <div class="final">
+    Your presence, prayers and blessings are the greatest gift<br>
+    to our family on this blessed day. 💗💐
+  </div>
+
+</div>
+
+<audio id="bgm" src="music.mp3" loop></audio>
+
+<script>
+const env=document.getElementById("env");
+const envbox=document.getElementById("envbox");
+const card=document.getElementById("card");
+const audio=document.getElementById("bgm");
+
+function openInvite(){
+  envbox.classList.add("open");
+  setTimeout(()=>{
+    env.classList.add("hidden");
+    card.classList.add("show");
+    audio.play().catch(()=>{});
+  },700);
+}
+env.onclick=openInvite;
+envbox.onclick=openInvite;
+
+/* Petals */
+for(let i=0;i<40;i++){
+  const p=document.createElement("div");
+  p.className="petal";
+  p.style.left=(Math.random()*100)+"vw";
+  p.style.animationDuration=(10+Math.random()*5)+"s";
+  p.style.animationDelay=(Math.random()*5)+"s";
+  document.body.appendChild(p);
+}
+
+/* Sparkles */
+for(let i=0;i<80;i++){
+  const s=document.createElement("div");
+  s.className="sparkle";
+  s.style.left=(Math.random()*100)+"vw";
+  s.style.top=(Math.random()*100)+"vh";
+  s.style.animationDuration=(1.5+Math.random()*2)+"s";
+  s.style.animationDelay=(Math.random()*3)+"s";
+  document.body.appendChild(s);
+}
+</script>
+
+</body>
+</html>
